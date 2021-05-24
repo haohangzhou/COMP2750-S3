@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "assignment-3-task-1",
-    "slug": "snack-9829bfb4-3cc2-4db2-aa74-2691f61dc560",
+    "name": "comp2750",
+    "slug": "snack-a84587aa-eb19-4e33-adb8-b51c58bdabb5",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +27,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "description": "Example usage"
+    }
   }
 }

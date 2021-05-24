@@ -1,86 +1,146 @@
-import React, { useState } from "react";
-import {SafeAreaView, View, Text, StyleSheet,Picker, Button} from 'react-native';
+import React, { useState } from 'react';
+import {
+  Alert,
+  Image,
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  Picker,
+} from 'react-native';
 
+import Constants from 'expo-constants';
+import AppButton from './components/AppButton';
+import AppColor from './config/AppColor';
 
 export default function App() {
+  const [food, setFood] = useState('Select A Food');
+  const [foodQty, setFoodQty] = useState('Quantity');
+  const [drink, setDrink] = useState('Select A Drink');
+  const [drinkQty, setDrinkQty] = useState('Quantity');
+  const [totalCost, setTotalCost] = useState(0);
 
-  const [food1SelectedValue, setFood1SelectedValue] = useState("Select A Food");
-  const [food2selectedValue, setFood2SelectedValue] = useState("Quantity");
+  const getPrice = (item) => {
+    const price = [
+      { name: 'fries', price: 10 },
+      { name: 'burger', price: 15 },
+      { name: 'tacos', price: 15 },
+      { name: 'coke', price: 6 },
+      { name: 'pepsi', price: 6 },
+      { name: 'sprite', price: 5 },
+    ];
 
-  const [drink1SelectedValue, setDrink1SelectedValue] = useState("Select A Drink");
-  const [drink2selectedValue, setDrink2SelectedValue] = useState("Quantity");
-
-  const [calculatedValue, setCalculatedValue] = useState("Press the above button to calculate");
+    return price.find((x) => x.name == item).price;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.row1}>
-        <Text style={styles.heading}> Welcom to SFFS System </Text>
-      </View>
-
-      <View style={styles.row2}>
-        <Picker 
-          style={styles.picker1}
-          selectedValue={food1SelectedValue}
-          onValueChange={(itemValue, itemIndex) => setFood1SelectedValue(itemValue)}>
-            <Picker.Item label="Select A Food" value="Select A Food" />
-            <Picker.Item label="Fries-$10" value="Fries-$10" />
-            <Picker.Item label="Burger-$15" value="Burger-$15" />
-            <Picker.Item label="Tacos-$15" value="Tacos-$15" />
+      <Text style={styles.title}>
+        Welcome to {'\n'}Sydney {'\n'}Food Festival
+      </Text>
+      <Image
+        style={styles.image}
+        resizeMode="contain"
+        source={require('./assets/street-food.png')}
+      />
+      <View style={styles.pickerContainer}>
+        <Picker
+          style={styles.items}
+          selectedValue={food}
+          onValueChange={(itemValue, itemIndex) => setFood(itemValue)}>
+          <Picker.Item
+            color={AppColor.primary}
+            label="Select A Food"
+            value="Select A Food"
+          />
+          <Picker.Item
+            color={AppColor.primary}
+            label="Fries-$10"
+            value="fries"
+          />
+          <Picker.Item
+            color={AppColor.primary}
+            label="Burger-$15"
+            value="burger"
+          />
+          <Picker.Item
+            color={AppColor.primary}
+            label="Tacos-$15"
+            value="tacos"
+          />
         </Picker>
-        <Picker 
-          style={styles.picker2}
-          selectedValue={food2selectedValue}
-          onValueChange={(itemValue, itemIndex) => setFood2SelectedValue(itemValue)}>
-            <Picker.Item label="Quantity" value="Quantity" />
-            <Picker.Item label="1" value="1" />
-            <Picker.Item label="2" value="2" />
-            <Picker.Item label="3" value="3" />
-            <Picker.Item label="4" value="4" />
-            <Picker.Item label="5" value="5" />
-        </Picker>
-      </View>
-
-      <View style={styles.row2}>
-        <Picker 
-          style={styles.picker1}
-          selectedValue={drink1SelectedValue}
-          onValueChange={(itemValue, itemIndex) => setDrink1SelectedValue(itemValue)}>
-            <Picker.Item label="Select A Drink" value="Select A Drink" />
-            <Picker.Item label="Coke-$6" value="Coke-$6" />
-            <Picker.Item label="Pepsi-$6" value="Pepsi-$6" />
-            <Picker.Item label="Sprite-$5" value="Sprite-$5" />
-        </Picker>
-        <Picker 
-          style={styles.picker2}
-          selectedValue={drink2selectedValue}
-          onValueChange={(itemValue, itemIndex) => setDrink2SelectedValue(itemValue)}>
-            <Picker.Item label="Quantity" value="Quantity" />
-            <Picker.Item label="1" value="1" />
-            <Picker.Item label="2" value="2" />
-            <Picker.Item label="3" value="3" />
-            <Picker.Item label="4" value="4" />
-            <Picker.Item label="5" value="5" />
+        <Picker
+          style={styles.quantity}
+          selectedValue={foodQty}
+          onValueChange={(itemValue, itemIndex) => setFoodQty(itemValue)}>
+          <Picker.Item color={AppColor.primary} label="Quantity" value="" />
+          <Picker.Item color={AppColor.primary} label="1" value="1" />
+          <Picker.Item color={AppColor.primary} label="2" value="2" />
+          <Picker.Item color={AppColor.primary} label="3" value="3" />
+          <Picker.Item color={AppColor.primary} label="4" value="4" />
+          <Picker.Item color={AppColor.primary} label="5" value="5" />
         </Picker>
       </View>
 
-      <View>
-        <Button
-          title="CALCULATE"
-          onPress={() => {
-            const foodCost = parseInt(food1SelectedValue[food1SelectedValue.length - 1]);
-            const foodQuantity = parseInt(food2selectedValue);
+      <View style={styles.pickerContainer}>
+        <Picker
+          style={styles.items}
+          selectedValue={drink}
+          onValueChange={(itemValue, itemIndex) => setDrink(itemValue)}>
+          <Picker.Item
+            color={AppColor.primary}
+            label="Select A Drink"
+            value="Select A Drink"
+          />
+          <Picker.Item color={AppColor.primary} label="Coke-$6" value="coke" />
+          <Picker.Item
+            color={AppColor.primary}
+            label="Pepsi-$6"
+            value="pepsi"
+          />
+          <Picker.Item
+            color={AppColor.primary}
+            label="Sprite-$5"
+            value="sprite"
+          />
+        </Picker>
 
-            const drinkCost = parseInt(drink1SelectedValue[drink1SelectedValue.length - 1]);
-            const drinkQuantity = parseInt(drink2selectedValue);
-
-            const totalCost = foodCost * foodQuantity + drinkCost * drinkQuantity;
-            
-            setCalculatedValue("Total Cost: $" + totalCost);
-          }}
-        />
-        <Text style={styles.heading}> {calculatedValue} </Text>
+        <Picker
+          style={styles.quantity}
+          selectedValue={drinkQty}
+          onValueChange={(itemValue, itemIndex) => setDrinkQty(itemValue)}>
+          <Picker.Item
+            color={AppColor.primary}
+            label="Quantity"
+            value="Quantity"
+          />
+          <Picker.Item color={AppColor.primary} label="1" value="1" />
+          <Picker.Item color={AppColor.primary} label="2" value="2" />
+          <Picker.Item color={AppColor.primary} label="3" value="3" />
+          <Picker.Item color={AppColor.primary} label="4" value="4" />
+          <Picker.Item color={AppColor.primary} label="5" value="5" />
+        </Picker>
       </View>
+
+      <View style={styles.resultContainer}>
+        <Text style={styles.result}>Total: ${totalCost}</Text>
+      </View>
+      <AppButton
+        title="Calculate"
+        style={styles.button}
+        onPress={() => {
+          console.log(food);
+          const foodTotal = getPrice(food) * foodQty;
+          const drinkTotal = getPrice(drink) * drinkQty;
+          const totalCost = foodTotal + drinkTotal;
+          
+          if (totalCost) {
+            setTotalCost(totalCost);
+          } else {
+            alert("You haven't picked anything!");
+          }
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -88,21 +148,62 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E3D3E3'
+    backgroundColor: AppColor.secondary,
+    marginTop: Constants.statusBarHeight,
   },
-  heading: {
-    fontSize:20,
-    textAlign: 'center',
-    marginTop: 30
+
+  title: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginLeft: 20,
+    color: AppColor.primary,
   },
-  row2:{
+
+  image: {
+    width: '100%',
+    height: 200,
+    marginTop: -30,
+  },
+
+  button: {
+    alignSelf: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  pickerContainer: {
     flexDirection: 'row',
     marginTop: 7,
+    marginHorizontal: 15,
   },
-  picker1:{
-    flex:2
+
+  items: {
+    flex: 3,
+    color: AppColor.primary,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginHorizontal: 5,
   },
-  picker2:{
-    flex:1
+  quantity: {
+    flex: 2,
+    color: AppColor.primary,
+  },
+
+  resultContainer: {
+    flex: 1,
+    width: '80%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderBottomWidth: 1,
+    borderColor: AppColor.primary,
+  },
+
+  result: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: AppColor.primary,
+    textTransform: 'capitalize',
   },
 });
