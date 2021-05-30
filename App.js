@@ -80,7 +80,7 @@ export default function App() {
                     <Picker.Item
                         color={AppColor.primary}
                         label="Quantity"
-                        value=""
+                        value="Quantity"
                     />
                     <Picker.Item color={AppColor.primary} label="1" value="1" />
                     <Picker.Item color={AppColor.primary} label="2" value="2" />
