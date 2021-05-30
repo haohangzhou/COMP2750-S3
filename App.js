@@ -141,7 +141,7 @@ export default function App() {
             </View>
 
             <View style={styles.resultContainer}>
-                <Text style={styles.result}>Total: ${totalCost}</Text>
+                <Text style={styles.result}>Order Total: ${totalCost}</Text>
             </View>
             <AppButton
                 title="Calculate"
@@ -159,7 +159,7 @@ export default function App() {
             />
 
             <Text style={styles.member}>
-                Group 50: Haohang Zhou, Hasib Rahman, {"\n"}Irwan Dervisk, Sabin
+                Group 50: Haohang Zhou, Hasib Rahman, {"\n"}Irwan Derviskadic, Sabin
                 Thapa
             </Text>
         </SafeAreaView>
@@ -233,5 +233,6 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         padding: 5,
         color: AppColor.primary,
+        textAlign: 'center'
     },
 });
