@@ -130,14 +130,13 @@ export default function App() {
         style={styles.button}
         onPress={() => {
           console.log(food);
-          const foodTotal = getPrice(food) * foodQty;
-          const drinkTotal = getPrice(drink) * drinkQty;
-          const totalCost = foodTotal + drinkTotal;
-          
-          if (totalCost) {
+          try {
+            const foodTotal = getPrice(food) * foodQty;
+            const drinkTotal = getPrice(drink) * drinkQty;
+            const totalCost = foodTotal + drinkTotal;
             setTotalCost(totalCost);
-          } else {
-            alert("You haven't picked anything!");
+          } catch (err) {
+            alert("Please select something for every field.");
           }
         }}
       />
